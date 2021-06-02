@@ -22,15 +22,15 @@ set signcolumn=yes
 
 
 " Cursorline-------------------------------------------------------------------
-augroup CustomCursorLine
-au!   
-    au ColorScheme * :hi! CursorLine 
-          \ gui=underline cterm=underline guibg=NONE ctermbg=NONE
-    au VimEnter * setlocal cursorline
-    au WinEnter * setlocal cursorline
-    au BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
-augroup END
+"augroup CustomCursorLine
+"au!   
+"    au ColorScheme * :hi! CursorLine 
+"          \ gui=underline cterm=underline guibg=NONE ctermbg=NONE
+"    au VimEnter * setlocal cursorline
+"    au WinEnter * setlocal cursorline
+"    au BufWinEnter * setlocal cursorline
+"    au WinLeave * setlocal nocursorline
+"augroup END
 " -----------------------------------------------------------------------------
 
 
@@ -60,7 +60,8 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'morhetz/gruvbox'
-Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'chemzqm/vim-jsx-improve'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'preservim/nerdtree'
@@ -179,42 +180,42 @@ set background=dark
 
 "colorscheme desert
 
-let g:gruvbox_bold=0
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_transparent_bg=1
-let g:gruvbox_guisp_fallback = 'bg'
-colorscheme gruvbox
+"let g:gruvbox_bold=0
+"let g:gruvbox_contrast_dark='hard'
+"let g:gruvbox_transparent_bg=1
+"let g:gruvbox_guisp_fallback = 'bg'
+"colorscheme gruvbox
 
 "let g:github_colors_soft = 1
 "let g:github_colors_block_diffmark = 0
 "colorscheme github
 
-"let g:PaperColor_Theme_Options = {
-"  \   'theme': {
-"  \     'default.dark': {
-"  "\       'transparent_background': 1,
-"  \       'override' : {
-"  \         'color00' : ['#080808', '232'],
-"  \         'linenumber_bg' : ['#080808', '232']
-"  \       },
-"  \       'allow_bold' : 0
-"  \     },
-"  \     'default.light': {
-"  \       'allow_bold' : 0,
-"  \       'override' : {
-"  \         'color00' : ['#ffffff', '15'],
-"  \         'linenumber_bg' : ['#ffffff', '15']
-"  \       },
-"  "\        'transparent_background': 1
-"  \     }
-"  \   }
-"  \ }
-"colorscheme PaperColor
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default.dark': {
+  \       'transparent_background': 1,
+  \       'override' : {
+  \         'color00' : ['#080808', '232'],
+  \         'linenumber_bg' : ['#080808', '232']
+  \       },
+  \       'allow_bold' : 0
+  \     },
+  \     'default.light': {
+  \       'allow_bold' : 0,
+  \       'override' : {
+  \         'color00' : ['#ffffff', '15'],
+  \         'linenumber_bg' : ['#ffffff', '15']
+  \       },
+  "\        'transparent_background': 1
+  \     }
+  \   }
+  \ }
+colorscheme PaperColor
 "
 "syntax enable
 "set t_Co=256
 "colorscheme primary
-highlight Normal ctermbg=NONE guibg=NONE
+"highlight Normal ctermbg=NONE guibg=NONE
 "------------------------------------------------------------------------------
 
 
@@ -380,6 +381,8 @@ nnoremap <leader>H :wincmd H<CR>
 nnoremap <leader>J :wincmd J<CR>
 nnoremap <leader>K :wincmd K<CR>
 nnoremap <leader>L :wincmd L<CR>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
 
 nnoremap <leader>t :TagbarToggle<CR>
 
@@ -414,6 +417,7 @@ inoremap <silent><expr> <cr> pumvisible() ?
 let g:gitgutter_map_keys = 0
 let g:go_template_autocreate=0
 let g:jsx_ext_required = 1
+
 set cc=80,100
 
 hi SignColumn guibg=NONE ctermbg=NONE
@@ -427,6 +431,7 @@ hi CocErrorSign ctermfg=DarkGreen
 command! -bar -nargs=* -complete=file -range=% -bang W         <line1>,<line2>write<bang> <args>
 command! -bar -nargs=* -complete=file -range=% -bang Write     <line1>,<line2>write<bang> <args>
 command! -bar -nargs=* -complete=file -range=% -bang Wq        <line1>,<line2>wq<bang> <args>
+command! -bar                                  -bang Wa        wa<bang> <args>
 command! -bar                                  -bang Wqall     wqa<bang>
 command! -bar -nargs=* -complete=file -range=% -bang We        <line1>,<line2>w<bang> | e <args>
 command! -bar -nargs=* -complete=file -count   -bang Wnext     <count>wnext<bang> <args>
