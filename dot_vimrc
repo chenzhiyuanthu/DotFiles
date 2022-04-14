@@ -16,6 +16,7 @@ set hidden
 set updatetime=300
 set shortmess+=c
 set signcolumn=yes
+set ic
 "------------------------------------------------------------------------------
 
 
@@ -23,13 +24,13 @@ set signcolumn=yes
 
 " Cursorline-------------------------------------------------------------------
 "augroup CustomCursorLine
-"au!   
-"    au ColorScheme * :hi! CursorLine 
-"          \ gui=underline cterm=underline guibg=NONE ctermbg=NONE 
-"    au VimEnter * setlocal cursorline
-"    au WinEnter * setlocal cursorline
-"    au BufWinEnter * setlocal cursorline
-"    au WinLeave * setlocal nocursorline
+"  au!   
+"  au ColorScheme * :hi! CursorLine 
+"        \ gui=underline cterm=underline guibg=NONE ctermbg=NONE 
+"  au VimEnter * setlocal cursorline
+"  au WinEnter * setlocal cursorline
+"  au BufWinEnter * setlocal cursorline
+"  au WinLeave * setlocal nocursorline
 "augroup END
 " -----------------------------------------------------------------------------
 
@@ -52,12 +53,12 @@ Plug 'fatih/vim-go'
 Plug 'fugalh/desert.vim'
 Plug 'google/vim-colorscheme-primary'
 Plug 'heavenshell/vim-jsdoc', { 
-  \ 'for': ['javascript', 'javascript.jsx','typescript', 'typescript.tsx'], 
-  \ 'do': 'make install'
-\}
+      \ 'for': ['javascript', 'javascript.jsx','typescript', 'typescript.tsx'], 
+      \ 'do': 'make install'
+      \}
 Plug 'honza/vim-snippets'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-Plug 'iamcco/markdown-preview.nvim', 
+Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}, 
 Plug 'jremmen/vim-ripgrep'
 Plug 'mbbill/undotree'
 "Plug 'mhinz/vim-startify'
@@ -81,12 +82,19 @@ Plug 'Xuyuanp/nerdtree-git-plugin',
       \ { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ryanoasis/vim-devicons' "This plugin must be loaded after nerdtree-git-plugin, or it will not be aligned well.
 Plug 'ekalinin/dockerfile.vim'
-"Plug 'kyazdani42/nvim-web-devicons' " for file icons
-"Plug 'kyazdani42/nvim-tree.lua'
 Plug 'lifepillar/vim-wwdc16-theme'
 Plug 'arzg/vim-colors-xcode'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug '907th/vim-auto-save'
+Plug 'Omnisharp/omnisharp-vim'
+Plug 'kyoz/purify', {'rtp': 'vim'}
+Plug 'chriskempson/base16-vim'
+Plug 'ckipp01/stylua-nvim'
+
+Plug 'google/vim-maktaba'
+Plug 'bazelbuild/vim-bazel'
+Plug 'mvpopuk/inspired-github.vim'
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 "------------------------------------------------------------------------------
 
@@ -127,20 +135,20 @@ let g:NERDTreeShowHidden = 1
 let g:NERDDefaultAlign = "left"
 let g:NERDTreeWinSize = 45
 let g:NERDTreeColorMapCustom = {
-    \ "Staged"    : "#0ee375",  
-    \ "Modified"  : "#d9bf91",  
-    \ "Renamed"   : "#51C9FC",  
-    \ "Untracked" : "#FCE77C",  
-    \ "Unmerged"  : "#FC51E6",  
-    \ "Dirty"     : "#FFBD61",  
-    \ "Clean"     : "#87939A",   
-    \ "Ignored"   : "#808080"   
-    \ }                         
+      \ "Staged"    : "#0ee375",  
+      \ "Modified"  : "#d9bf91",  
+      \ "Renamed"   : "#51C9FC",  
+      \ "Untracked" : "#FCE77C",  
+      \ "Unmerged"  : "#FC51E6",  
+      \ "Dirty"     : "#FFBD61",  
+      \ "Clean"     : "#87939A",   
+      \ "Ignored"   : "#808080"   
+      \ }                         
 
 
 "let g:NERDTreeIgnore = ['^node_modules$']
- "sync open file with NERDTree
- " Check if NERDTree is open or active
+"sync open file with NERDTree
+" Check if NERDTree is open or active
 function! IsNERDTreeOpen()        
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
@@ -179,8 +187,7 @@ endif
 
 " Colorscheme------------------------------------------------------------------
 "set background=dark
-
-"colorscheme bogster
+set background=dark
 
 "colorscheme solarized
 
@@ -191,21 +198,31 @@ endif
 "colorscheme desert
 
 "set termguicolors
+"let ayucolor="light"
+"colorscheme ayu
+
+"colorscheme inspired-github
+
+"set termguicolors
 "colorscheme nord
 
-"let g:gruvbox_bold=0
-"let g:gruvbox_contrast_dark='hard'
-"let g:gruvbox_transparent_bg=1
-"let g:gruvbox_guisp_fallback = 'bg'
-"colorscheme gruvbox
+let g:gruvbox_bold=0
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_transparent_bg=1
+let g:gruvbox_guisp_fallback = 'bg'
+colorscheme gruvbox
 
-set t_Co=16
-colorscheme wwdc16
+"syntax on
+"colorscheme purify
+
+"colorscheme base16-default-dark
+
+"set t_Co=16
+"colorscheme wwdc16
 
 "set termguicolors
 "colorscheme xcodedark
 
-"set background=dark
 "let g:github_colors_soft = 1
 "let g:github_colors_block_diffmark = 0
 "colorscheme github
@@ -232,7 +249,6 @@ colorscheme wwdc16
 "  \ }
 "colorscheme PaperColor
 
-"set background=light
 "syntax enable
 "set t_Co=256
 "colorscheme primary
@@ -253,17 +269,18 @@ noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " cocconfig--------------------------------------------------------------------
 let g:coc_global_extensions = [
-  \ 'coc-snippets',
-  \ 'coc-pairs',
-  \ 'coc-tsserver',
-  \ 'coc-eslint',
-  \ 'coc-prettier',
-  \ 'coc-json',
-  \ 'coc-angular',
-  \ 'coc-html',
-  \ 'coc-css',
-  \ 'coc-python'
-  \ ]
+      \ 'coc-snippets',
+      \ 'coc-pairs',
+      \ 'coc-tsserver',
+      \ 'coc-eslint',
+      \ 'coc-prettier',
+      \ 'coc-json',
+      \ 'coc-angular',
+      \ 'coc-html',
+      \ 'coc-css',
+      \ 'coc-python',
+      \ 'coc-omnisharp'
+      \ ]
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -290,6 +307,7 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
+nmap <silent> gs :vsp<CR><Plug>(coc-definition)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -356,23 +374,23 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+"nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+"" Manage extensions
+"nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+"" Show commands
+"nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+"" Find symbol of current document
+"nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+"" Search workspace symbols
+"nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+"" Do default action for next item.
+"nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+"" Do default action for previous item.
+"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+"" Resume latest coc list
+"nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-inoremap <C-P> <C-\><C-O>:call CocActionAsync('showSignatureHelp')<cr>
+"inoremap <C-P> <C-\><C-O>:call CocActionAsync('showSignatureHelp')<cr>
 
 "------------------------------------------------------------------------------
 
@@ -382,13 +400,13 @@ inoremap <C-P> <C-\><C-O>:call CocActionAsync('showSignatureHelp')<cr>
 " window-selector--------------------------------------------------------------
 let i = 1
 while i <= 9
-    execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
-    let i = i + 1
+  execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
+  let i = i + 1
 endwhile
 
 function! WindowNumber()
-    let str=tabpagewinnr(tabpagenr())
-    return str
+  let str=tabpagewinnr(tabpagenr())
+  return str
 endfunction
 "------------------------------------------------------------------------------
 
@@ -416,18 +434,17 @@ nnoremap <C-f> :Ag<CR>
 
 nmap <silent><leader>pe :e ~/.vimrc<CR>
 nmap <expr> <leader>f 
-      \ (index(['c','cpp', 'java'], 
+      \ (index(['c','cpp', 'java', 'cs'], 
       \ &filetype) >= 0) ? 
       \ ':ClangFormat<CR>' : 
       \ ((index(['python', 'go', 'json', 'markdown', 
-      \ 'vue', 'javascript.jsx','proto','typescript','javascript', 'typescript.tsx', 'typescriptreact', 'javascriptreact', 'html', 'scss', 'css', 'yaml'],
+      \ 'cs', 'vue', 'javascript.jsx','proto','typescript','javascript', 'typescript.tsx', 'typescriptreact', 'javascriptreact', 'html', 'scss', 'css', 'yaml'],
       \ &filetype) >= 0) ? 
-      \ ':Format<CR>' : '')
-
+      \ ':Format<CR>' : ((index(['lua', 'lua.txt'], &filetype) >= 0) ? ':lua require("stylua-nvim").format_file()<CR>' : ''))
 
 nnoremap <leader>u :UndotreeToggle<CR>
-nnoremap gt :bn<CR>
-nnoremap gT :bp<CR>
+"nnoremap gt :bn<CR>
+"nnoremap gT :bp<CR>
 inoremap <silent><expr> <cr> pumvisible() ? 
       \ coc#_select_confirm() : 
       \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -532,6 +549,7 @@ inoremap <silent><expr> <cr> pumvisible() ?
 "" a list of groups can be found at `:help nvim_tree_highlight`
 "highlight NvimTreeFolderIcon guibg=blue
 "------------------------------------------------------------------------------
+"
 
 
 
@@ -542,13 +560,13 @@ let g:gitgutter_map_keys = 0
 let g:go_template_autocreate=0
 let g:jsx_ext_required = 1
 
-set cc=80
-"set cc=80, 100
+"set cc=80
+set cc=100
 
 hi SignColumn guibg=NONE ctermbg=NONE
 hi LineNr ctermfg=NONE ctermbg=NONE
 hi ColorColumn ctermfg=NONE ctermbg=NONE
-hi CocErrorSign ctermfg=231 
+hi CocErrorSign ctermfg=231
 hi CocWarningSign ctermfg=DarkYellow
 hi VertSplit ctermbg=NONE 
 "------------------------------------------------------------------------------
@@ -584,3 +602,15 @@ set guicursor+=i:hor20-Cursor/lCursor
 
 let g:auto_save = 0
 nnoremap <leader>n :noh<CR>
+
+"=== omnisharp
+
+let g:OmniSharp_translate_cygwin_wsl = 1
+let g:OmniSharp_server_type = 'roslyn'
+let g:OmniSharp_prefer_global_sln = 1
+let g:OmniSharp_timeout = 10
+autocmd Filetype cs nnoremap <buffer> gs :OmniSharpGotoDefinition<CR>
+autocmd Filetype cs nnoremap <buffer> gy :OmniSharpTypeLookup<CR>
+autocmd Filetype cs nnoremap <buffer> gr :OmniSharpFindUsages<CR>
+autocmd Filetype cs nnoremap <buffer> gp :OmniSharpPreviewDefinition<CR>
+
