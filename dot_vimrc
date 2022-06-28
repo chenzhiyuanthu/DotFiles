@@ -614,3 +614,4 @@ autocmd Filetype cs nnoremap <buffer> gy :OmniSharpTypeLookup<CR>
 autocmd Filetype cs nnoremap <buffer> gr :OmniSharpFindUsages<CR>
 autocmd Filetype cs nnoremap <buffer> gp :OmniSharpPreviewDefinition<CR>
 
+"hahaha
